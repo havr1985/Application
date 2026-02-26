@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config';
+import { StringValue } from 'ms';
 
 export const appConfig = registerAs('app', () => ({
   port: process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3000,
@@ -15,9 +16,11 @@ export const dbConfig = registerAs('db', () => ({
 }));
 
 export const jwtConfig = registerAs('jwt', () => ({
-  secret: process.env.JWT_SECRET,
-  expiresIn: process.env.JWT_EXPIRATION || '15m',
-  refreshExpiresIn: process.env.JWT_REFRESH_EXPIRATION || '15d',
+  accessSecret: process.env.JWT_ACCESS_SECRET,
+  refreshSecret: process.env.JWT_REFRESH_SECRET,
+  expiresIn: (process.env.JWT_EXPIRATION || '15m') as StringValue,
+  refreshExpiresIn: (process.env.JWT_REFRESH_EXPIRATION ||
+    '15d') as StringValue,
 }));
 
 export const config = [appConfig, dbConfig, jwtConfig];

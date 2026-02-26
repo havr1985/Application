@@ -23,7 +23,10 @@ class EnvironmentVariables {
   DB_NAME: string;
 
   @IsString()
-  JWT_SECRET: string;
+  JWT_ACCESS_SECRET: string;
+
+  @IsString()
+  JWT_REFRESH_SECRET: string;
 
   @IsString()
   JWT_EXPIRATION: string;
