@@ -1,0 +1,45 @@
+@startuml Event Management System - Database Model
+
+skinparam linetype ortho
+skinparam roundcorner 10
+skinparam class {
+  BackgroundColor #FEFEFE
+  BorderColor #333333
+  ArrowColor #333333
+  FontSize 13
+}
+
+entity "users" as users {
+  * **id** : uuid <<PK>>
+  --
+  * email : varchar(255) <<UNIQUE>>
+  * password : varchar(255)
+  * name : varchar(50)
+  * created_at : timestamptz
+  * updated_at : timestamptz
+}
+
+entity "events" as events {
+  * **id** : uuid <<PK>>
+  --
+  * title : varchar(100)
+  * description : text
+  * date_time : timestamptz
+  * location : varchar(200)
+  capacity : int <<NULLABLE>>
+  * visibility : enum('public','private')
+  * organizer_id : uuid <<FK>>
+  * created_at : timestamptz
+  * updated_at : timestamptz
+}
+
+entity "event_participants" as participants {
+  * **event_id** : uuid <<PK, FK>>
+  * **user_id** : uuid <<PK, FK>>
+}
+
+users ||--o{ events : "organizes"
+users }o--o{ participants : "joins"
+events }o--o{ participants : "has"
+
+@enduml
