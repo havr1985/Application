@@ -4,10 +4,10 @@ export class UserResponseDto {
   @ApiProperty({ example: '550e8400-e29b-41d4-a716-446655440000' })
   id: string;
 
-  @ApiProperty({ example: 'Олена Покупець' })
+  @ApiProperty({ example: 'Ivan User' })
   name: string;
 
-  @ApiProperty({ example: 'olena@example.com' })
+  @ApiProperty({ example: 'ivan@mail.com' })
   email: string;
 }
 
