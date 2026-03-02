@@ -57,15 +57,16 @@ export class AuthService {
   async refreshToken(
     refreshToken: string,
   ): Promise<{ auth: AuthResponseDto; refreshToken: string }> {
-    const payload = this.jwtService.verify<{ sub: string }>(refreshToken, {
-      secret: this.jwt.refreshSecret,
-    });
-    if (!payload) {
+    try {
+      const payload = this.jwtService.verify<{ sub: string }>(refreshToken, {
+        secret: this.jwt.refreshSecret,
+      });
+      const user = await this.usersService.findOneById(payload.sub);
+
+      return this.generateAuthResponse(user);
+    } catch {
       throw new UnauthorizedException('Refresh token invalid');
     }
-    const user = await this.usersService.findOneById(payload.sub);
-
-    return this.generateAuthResponse(user);
   }
 
   private generateAuthResponse(user: User): {

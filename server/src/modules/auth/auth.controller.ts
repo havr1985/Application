@@ -122,7 +122,7 @@ export class AuthController {
     res.cookie(REFRESH_COOKIE_NAME, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
       path: this.refreshCookiePath,
       maxAge: this.refreshCookieMaxAge,
     });
