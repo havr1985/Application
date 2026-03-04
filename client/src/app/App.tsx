@@ -1,17 +1,24 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/router.tsx';
-import { useAuthActions } from '../features/auth/store/auth.selectors.ts';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAuthStore } from '../features/auth/store/auth.store.ts';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
-  const { checkAuth } = useAuthActions();
+  const initialized = useRef(false);
+
   useEffect(() => {
-    if (!useAuthStore.getState().accessToken) {
-      checkAuth();
+    if (!initialized.current) {
+      initialized.current = true;
+      useAuthStore.getState().checkAuth();
     }
   }, []);
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Toaster position="top-right" />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

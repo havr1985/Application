@@ -1,21 +1,25 @@
-import { EventForm } from '../features/events/components/EventForm.tsx';
-import type { CreateEventFormData } from '../features/events/schemas/event.schemas.ts';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   useCurrentEvent,
   useEventsActions,
 } from '../features/events/store/events.selectors.ts';
+import type { EventFormData } from '../features/events/schemas/event.schemas.ts';
+import { EventForm } from '../features/events/components/EventForm.tsx';
+import type { FC } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
-const EventCreatePage = () => {
+const EditEventPage: FC = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const { updateEvent } = useEventsActions();
   const currentEvent = useCurrentEvent();
-  const { createEvent } = useEventsActions();
 
-  const handleCreate = async (data: CreateEventFormData) => {
+  if (!id || !currentEvent) return null;
+
+  const handleEdit = async (data: EventFormData) => {
     try {
-      createEvent({ ...data, capacity: data.capacity ?? null });
-      navigate(`/events/${currentEvent?.id}`);
+      updateEvent(id, { ...data, capacity: data.capacity ?? null });
+      navigate(`/events/${id}`);
     } catch {
       //
     }
@@ -33,15 +37,20 @@ const EventCreatePage = () => {
 
       <div className="card p-8">
         <h1 className="text-2xl font-bold text-text-primary mb-1">
-          Create New Event
+          Edit Your Event
         </h1>
         <p className="text-sm text-text-secondary mb-8">
           Fill in the details to create an amazing event
         </p>
-        <EventForm onSubmit={handleCreate} submitLabel="Create Event" />
+        <EventForm
+          onSubmit={handleEdit}
+          submitLabel="Edit Event"
+          initialData={currentEvent}
+          minCapacity={currentEvent.participants.length}
+        />
       </div>
     </div>
   );
 };
 
-export default EventCreatePage;
+export default EditEventPage;

@@ -26,9 +26,21 @@ export class EventsService {
     private readonly eventsRepository: Repository<Event>,
   ) {}
 
-  async findAllPublic(): Promise<EventsItemResponseDto[]> {
+  async findAll(userId?: string): Promise<EventsItemResponseDto[]> {
+    const where = { visibility: VisibilityEvent.PUBLIC };
+    if (userId) {
+      const event = await this.eventsRepository.find({
+        where: [
+          { visibility: VisibilityEvent.PUBLIC },
+          { visibility: VisibilityEvent.PRIVATE },
+        ],
+        relations: ['participants', 'organizer'],
+        order: { dateTime: 'asc' },
+      });
+      return mapToListItem(event);
+    }
     const events = await this.eventsRepository.find({
-      where: { visibility: VisibilityEvent.PUBLIC },
+      where,
       relations: ['participants', 'organizer'],
       order: { dateTime: 'asc' },
     });
@@ -55,6 +67,13 @@ export class EventsService {
     if (createEventDto.dateTime <= dateNow) {
       throw new BadRequestException('Cannot create an event with a past date');
     }
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+
+    if (createEventDto.dateTime < tomorrow) {
+      throw new BadRequestException('Event must start from tomorrow or later');
+    }
     const newEvent = this.eventsRepository.create({
       ...createEventDto,
       organizer: user,
@@ -70,6 +89,7 @@ export class EventsService {
   ): Promise<EventDetailsResponseDto> {
     const event = await this.findEventOrFail(id, 'organizer');
     this.checkOwner(event.organizer.id, user.id);
+
     Object.assign(event, updateEventDto);
     await this.eventsRepository.save(event);
 

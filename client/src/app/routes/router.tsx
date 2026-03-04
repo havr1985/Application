@@ -7,6 +7,7 @@ const EventsListPage = lazy(() => import('../../pages/EventsListPage.tsx'));
 const RegisterPage = lazy(() => import('../../pages/RegisterPage.tsx'));
 const LoginPage = lazy(() => import('../../pages/LoginPage.tsx'));
 const CreateEventPage = lazy(() => import('../../pages/CreateEventPage.tsx'));
+const EditEventPage = lazy(() => import('../../pages/EditEventPage.tsx'));
 const EventDetailPage = lazy(() => import('../../pages/EventDetailPage.tsx'));
 const MyEventsPage = lazy(() => import('../../pages/MyEventsPage.tsx'));
 
@@ -45,6 +46,16 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<p>Loading...</p>}>
               <CreateEventPage />
+            </Suspense>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'events/:id/edit',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<p>Loading...</p>}>
+              <EditEventPage />
             </Suspense>
           </ProtectedRoute>
         ),

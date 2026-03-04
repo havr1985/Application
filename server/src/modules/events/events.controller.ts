@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { Public } from '../auth/decorators/public.decorator';
@@ -23,6 +24,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { OptionalJwtGuard } from '../auth/guards/optional-jwt.guard';
 
 @ApiTags('events')
 @Controller('events')
@@ -30,15 +32,16 @@ export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
   @Public()
+  @UseGuards(OptionalJwtGuard)
   @Get()
-  @ApiOperation({ summary: 'Get all public events' })
+  @ApiOperation({ summary: 'Get all events' })
   @ApiResponse({
     status: 200,
     description: 'List of public events',
     type: [EventsItemResponseDto],
   })
-  async getAllPublic(): Promise<EventsItemResponseDto[]> {
-    return this.eventsService.findAllPublic();
+  async getAll(@CurrentUser() user?: User): Promise<EventsItemResponseDto[]> {
+    return this.eventsService.findAll(user?.id);
   }
 
   @Public()
