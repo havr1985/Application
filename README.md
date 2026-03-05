@@ -14,7 +14,7 @@ The easiest way to run the project — one command:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/Application.git
+git clone https://github.com/havr1985/Application.git
 cd Application
 
 # 2. Copy environment file
