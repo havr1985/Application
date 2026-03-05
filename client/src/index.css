@@ -1,68 +1,427 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import 'tailwindcss';
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* ===== Design Tokens ===== */
+@theme {
+    /* Primary - Green (Join, Create actions) */
+    --color-primary-50: #f0fdf4;
+    --color-primary-100: #dcfce7;
+    --color-primary-200: #bbf7d0;
+    --color-primary-300: #86efac;
+    --color-primary-400: #4ade80;
+    --color-primary-500: #22c55e;
+    --color-primary-600: #16a34a;
+    --color-primary-700: #15803d;
+    --color-primary-800: #166534;
+    --color-primary-900: #14532d;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    /* Accent - Indigo (Calendar, secondary actions) */
+    --color-accent-50: #eef2ff;
+    --color-accent-100: #e0e7ff;
+    --color-accent-200: #c7d2fe;
+    --color-accent-300: #a5b4fc;
+    --color-accent-400: #818cf8;
+    --color-accent-500: #6366f1;
+    --color-accent-600: #4f46e5;
+    --color-accent-700: #4338ca;
+    --color-accent-800: #3730a3;
+    --color-accent-900: #312e81;
+
+    /* Neutral - Grays */
+    --color-surface: #ffffff;
+    --color-surface-secondary: #f9fafb;
+    --color-surface-tertiary: #f3f4f6;
+    --color-border: #e5e7eb;
+    --color-border-strong: #d1d5db;
+
+    /* Text */
+    --color-text-primary: #111827;
+    --color-text-secondary: #6b7280;
+    --color-text-tertiary: #9ca3af;
+
+    /* Danger */
+    --color-danger-50: #fef2f2;
+    --color-danger-500: #ef4444;
+    --color-danger-600: #dc2626;
+    --color-danger-700: #b91c1c;
+
+    /* Typography */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    /* Shadows */
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
+    --shadow-card-hover: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.08);
+    --shadow-modal: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+    /* Border Radius */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+
+    /* Breakpoints */
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* ===== Base Styles ===== */
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    background-color: var(--color-surface-secondary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+    cursor: pointer;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* ===== Component Utilities ===== */
+@utility btn-primary {
+    background-color: var(--color-primary-500);
+    color: white;
+    font-weight: 600;
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--radius-md);
+    transition: all 150ms ease;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--color-primary-600);
+    }
+    &:active {
+        background-color: var(--color-primary-700);
+    }
+    &:disabled {
+        background-color: var(--color-primary-300);
+        cursor: not-allowed;
+    }
+}
+
+@utility btn-accent {
+    background-color: var(--color-accent-500);
+    color: white;
+    font-weight: 600;
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--radius-md);
+    transition: all 150ms ease;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--color-accent-600);
+    }
+    &:active {
+        background-color: var(--color-accent-700);
+    }
+    &:disabled {
+        background-color: var(--color-accent-300);
+        cursor: not-allowed;
+    }
+}
+
+@utility btn-outline {
+    background-color: transparent;
+    color: var(--color-text-primary);
+    font-weight: 600;
+    padding: 0.625rem 1.25rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    transition: all 150ms ease;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--color-surface-tertiary);
+    }
+}
+
+@utility btn-danger {
+    background-color: var(--color-danger-500);
+    color: white;
+    font-weight: 600;
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--radius-md);
+    transition: all 150ms ease;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--color-danger-600);
+    }
+}
+
+@utility btn-full {
+    background-color: var(--color-surface-tertiary);
+    color: var(--color-text-tertiary);
+    font-weight: 600;
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--radius-md);
+    cursor: not-allowed;
+}
+
+@utility card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 200ms ease;
+    &:hover {
+        box-shadow: var(--shadow-card-hover);
+    }
+}
+
+@utility input-field {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+    &:focus {
+        outline: none;
+        border-color: var(--color-accent-500);
+        box-shadow: 0 0 0 3px var(--color-accent-100);
+    }
+    &::placeholder {
+        color: var(--color-text-tertiary);
+    }
+}
+
+@utility badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+}
+
+@import 'react-datepicker/dist/react-datepicker.css';
+
+.react-datepicker {
+    font-family: var(--font-sans) !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-modal) !important;
+}
+
+.react-datepicker__header {
+    background-color: var(--color-surface-secondary) !important;
+    border-bottom: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header {
+    color: var(--color-text-primary) !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+}
+
+.react-datepicker__day-name {
+    color: var(--color-text-tertiary) !important;
+    font-size: 0.75rem !important;
+}
+
+.react-datepicker__day {
+    color: var(--color-text-primary) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.react-datepicker__day:hover {
+    background-color: var(--color-accent-50) !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: var(--color-accent-500) !important;
+    color: white !important;
+}
+
+.react-datepicker__day--today {
+    font-weight: 700 !important;
+    color: var(--color-accent-600) !important;
+}
+
+.react-datepicker__day--today.react-datepicker__day--selected {
+    color: white !important;
+}
+
+.react-datepicker__day--disabled {
+    color: var(--color-text-tertiary) !important;
+}
+
+.react-datepicker__time-container {
+    border-left: 1px solid var(--color-border) !important;
+}
+
+.react-datepicker__time-list-item {
+    font-size: 0.875rem !important;
+}
+
+.react-datepicker__time-list-item--selected {
+    background-color: var(--color-accent-500) !important;
+}
+
+.react-datepicker__navigation-icon::before {
+    border-color: var(--color-text-secondary) !important;
+}
+
+.react-datepicker__triangle {
+    display: none !important;
+}
+
+
+@import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+.rbc-calendar {
+    font-family: var(--font-sans) !important;
+}
+
+.rbc-toolbar {
+    margin-bottom: 1.5rem !important;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.rbc-toolbar button {
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    color: var(--color-text-secondary) !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.375rem 0.75rem !important;
+    transition: all 150ms ease;
+}
+
+.rbc-toolbar button:hover {
+    background-color: var(--color-surface-tertiary) !important;
+    color: var(--color-text-primary) !important;
+}
+
+.rbc-toolbar button.rbc-active {
+    background-color: var(--color-accent-500) !important;
+    color: white !important;
+    border-color: var(--color-accent-500) !important;
+}
+
+.rbc-toolbar-label {
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    color: var(--color-text-primary) !important;
+}
+
+.rbc-header {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    color: var(--color-text-secondary) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 0.5rem !important;
+    border-bottom: 1px solid var(--color-border) !important;
+}
+
+.rbc-header + .rbc-header {
+    border-left: 1px solid var(--color-border) !important;
+}
+
+.rbc-month-view {
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-lg) !important;
+    overflow: hidden;
+}
+
+.rbc-month-row + .rbc-month-row {
+    border-top: 1px solid var(--color-border) !important;
+}
+
+.rbc-day-bg + .rbc-day-bg {
+    border-left: 1px solid var(--color-border) !important;
+}
+
+.rbc-off-range-bg {
+    background-color: var(--color-surface-secondary) !important;
+}
+
+.rbc-today {
+    background-color: var(--color-accent-50) !important;
+}
+
+.rbc-date-cell {
+    font-size: 0.8rem !important;
+    padding: 0.375rem 0.5rem !important;
+    color: var(--color-text-secondary) !important;
+}
+
+.rbc-date-cell.rbc-now {
+    font-weight: 700 !important;
+    color: var(--color-accent-600) !important;
+}
+
+.rbc-event {
+    background-color: var(--color-accent-500) !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-size: 0.75rem !important;
+    padding: 2px 6px !important;
+}
+
+.rbc-event:hover {
+    background-color: var(--color-accent-600) !important;
+}
+
+.rbc-event-content {
+    font-size: 0.75rem !important;
+}
+
+.rbc-show-more {
+    font-size: 0.75rem !important;
+    color: var(--color-accent-600) !important;
+    font-weight: 500 !important;
+}
+
+/* Week view */
+.rbc-time-view {
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-lg) !important;
+    overflow: hidden;
+}
+
+.rbc-time-header-content {
+    border-left: 1px solid var(--color-border) !important;
+}
+
+.rbc-time-content {
+    border-top: 1px solid var(--color-border) !important;
+}
+
+.rbc-timeslot-group {
+    border-bottom: 1px solid var(--color-border) !important;
+}
+
+.rbc-time-slot {
+    font-size: 0.75rem !important;
+    color: var(--color-text-tertiary) !important;
+}
+
+.rbc-day-slot .rbc-time-slot {
+    border-top: 1px solid var(--color-surface-tertiary) !important;
+}
+
+.rbc-current-time-indicator {
+    background-color: var(--color-danger-500) !important;
+}
+
+/* Overlay popup */
+.rbc-overlay {
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-modal) !important;
+    padding: 0.5rem !important;
+}
+
+.rbc-overlay-header {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: var(--color-text-primary) !important;
+    border-bottom: 1px solid var(--color-border) !important;
+    padding-bottom: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
 }
