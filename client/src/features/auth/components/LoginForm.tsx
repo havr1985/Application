@@ -26,7 +26,7 @@ export const LoginForm: FC = () => {
       await login(data.email, data.password);
       navigate('/');
     } catch {
-      console.log(error);
+      //
     }
   };
   return (

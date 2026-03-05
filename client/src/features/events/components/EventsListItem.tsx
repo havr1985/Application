@@ -18,7 +18,6 @@ export const EventsListItem = ({ event }: { event: EventsItem }) => {
   };
 
   const joinEvent = (id: string) => {
-    console.log('join event', id);
     join(id);
   };
 

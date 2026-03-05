@@ -1,5 +1,5 @@
 import { EventForm } from '../features/events/components/EventForm.tsx';
-import type { CreateEventFormData } from '../features/events/schemas/event.schemas.ts';
+import type { EventFormData } from '../features/events/schemas/event.schemas.ts';
 import { useNavigate } from 'react-router-dom';
 import {
   useCurrentEvent,
@@ -12,7 +12,7 @@ const EventCreatePage = () => {
   const currentEvent = useCurrentEvent();
   const { createEvent } = useEventsActions();
 
-  const handleCreate = async (data: CreateEventFormData) => {
+  const handleCreate = async (data: EventFormData) => {
     try {
       createEvent({ ...data, capacity: data.capacity ?? null });
       navigate(`/events/${currentEvent?.id}`);
