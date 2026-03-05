@@ -8,6 +8,14 @@ A full-stack Event Management Application built as a Proof of Concept (PoC).
 **Frontend:** React, TypeScript, Vite, Zustand, Tailwind CSS, react-big-calendar  
 **Infrastructure:** Docker, docker-compose, Nginx
 
+## Live Demo
+
+- **Frontend:** https://event-management-client-xyxq.onrender.com
+- **Backend API:** https://event-management-server-wzmt.onrender.com/api
+- **Swagger Docs:** https://event-management-server-wzmt.onrender.com/api/docs
+
+> Note: Free tier on Render has a cold start (~30 seconds) on first request.
+
 ## Quick Start (Docker)
 
 The easiest way to run the project — one command:
