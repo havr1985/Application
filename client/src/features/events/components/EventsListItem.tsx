@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useUser } from '../../auth/store/auth.selectors.ts';
 import { useEventsActions } from '../store/events.selectors.ts';
 import { EventActionButton } from './EventActionButton.tsx';
+import { TagChips } from '../../tags/components/TagChips.tsx';
 
 export const EventsListItem = ({ event }: { event: EventsItem }) => {
   const user = useUser();
@@ -24,12 +25,14 @@ export const EventsListItem = ({ event }: { event: EventsItem }) => {
   return (
     <Link to={`/events/${event.id}`} className="flex flex-col w-full ">
       <div className="card flex flex-1 flex-col p-8 text-text-secondary">
-        <div className="mb-4">
+        <div className="mb-6 flex flex-col gap-2">
           <h2 className="text-text-primary text-xl font-bold mb-1">
             {event.title}
           </h2>
+          <TagChips tags={event.tags} />
           <p>{event.description}</p>
         </div>
+
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <Calendar size={20} />

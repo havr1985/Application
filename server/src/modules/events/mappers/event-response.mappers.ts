@@ -14,6 +14,7 @@ export function mapToListItem(events: Event[]): EventsItemResponseDto[] {
     participantCount: event.participants.length,
     organizer: { id: event.organizer.id, name: event.organizer.name },
     participants: event.participants.map((p) => ({ id: p.id })),
+    tags: event.tags.map((tag) => ({ id: tag.id, name: tag.name })),
   }));
 }
 
@@ -32,6 +33,7 @@ export function mapToEventDetail(event: Event): EventDetailsResponseDto {
       email: event.organizer.email,
     },
     participants: event.participants.map((p) => ({ id: p.id, name: p.name })),
+    tags: event.tags.map((tag) => ({ id: tag.id, name: tag.name })),
   };
 }
 

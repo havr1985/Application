@@ -8,8 +8,19 @@ import type {
 import type { UserEvent } from '../types/user-events.types.ts';
 
 export const eventsApi = {
-  getAllEvents: async (): Promise<EventsItem[]> => {
-    const res = await api.get('/events');
+  getAllEvents: async (params?: {
+    tagIds?: string[];
+  }): Promise<EventsItem[]> => {
+    const res = await api.get('/events?', {
+      params,
+      paramsSerializer: (p) => {
+        const searchParams = new URLSearchParams();
+        if (p.tagIds) {
+          p.tagIds.forEach((id: string) => searchParams.append('tagIds', id));
+        }
+        return searchParams.toString();
+      },
+    });
     return res.data.data;
   },
   getEventById: async (id: string): Promise<EventDetail> => {

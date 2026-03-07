@@ -1,6 +1,8 @@
 import { VisibilityEvent } from '../entities/event.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayMaxSize,
+  IsArray,
   IsDate,
   IsEnum,
   IsInt,
@@ -42,4 +44,11 @@ export class CreateEventDto {
   @IsNotEmpty()
   @IsEnum(VisibilityEvent)
   visibility: VisibilityEvent;
+
+  @ApiProperty({ example: ['uuid1', 'uuid2'] })
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(5, { message: 'Maximum 5 tags per event' })
+  @IsString({ each: true })
+  tagIds?: string[];
 }

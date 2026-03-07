@@ -1,3 +1,5 @@
+import type { TagType } from '../../tags/types/tags.types.ts';
+
 export type EventDetail = {
   id: string;
   title: string;
@@ -8,6 +10,7 @@ export type EventDetail = {
   visibility: 'private' | 'public';
   organizer: OrganizerDetail;
   participants: ParticipantsDetail[];
+  tags: TagType[];
 };
 
 export type OrganizerDetail = {

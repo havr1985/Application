@@ -1,3 +1,5 @@
+import type { TagType } from '../../tags/types/tags.types.ts';
+
 export type EventsItem = {
   id: string;
   title: string;
@@ -8,6 +10,7 @@ export type EventsItem = {
   participantCount: number;
   organizer: Organizer;
   participants: Participant[];
+  tags: TagType[];
 };
 
 export type Participant = {

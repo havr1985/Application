@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Event, VisibilityEvent } from './entities/event.entity';
+import { Event } from './entities/event.entity';
 import { Repository } from 'typeorm';
 import { EventsItemResponseDto } from './dto/events-list-response.dto';
 import { EventDetailsResponseDto } from './dto/event-detail-respons.dto';
@@ -18,40 +18,47 @@ import {
   mapToListItem,
   mapToUserEvents,
 } from './mappers/event-response.mappers';
+import { TagsService } from '../tags/tags.service';
+import { Tag } from '../tags/entities/tag.entity';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectRepository(Event)
     private readonly eventsRepository: Repository<Event>,
+    private readonly tagsService: TagsService,
   ) {}
 
-  async findAll(userId?: string): Promise<EventsItemResponseDto[]> {
-    const where = { visibility: VisibilityEvent.PUBLIC };
+  async findAll(
+    userId?: string,
+    tagIds?: string[],
+  ): Promise<EventsItemResponseDto[]> {
+    const qb = this.eventsRepository
+      .createQueryBuilder('event')
+      .leftJoinAndSelect('event.participants', 'participants')
+      .leftJoinAndSelect('event.organizer', 'organizer')
+      .leftJoinAndSelect('event.tags', 'tags')
+      .orderBy('event.dateTime', 'ASC');
+
     if (userId) {
-      const event = await this.eventsRepository.find({
-        where: [
-          { visibility: VisibilityEvent.PUBLIC },
-          { visibility: VisibilityEvent.PRIVATE },
-        ],
-        relations: ['participants', 'organizer'],
-        order: { dateTime: 'asc' },
-      });
-      return mapToListItem(event);
+      qb.where('event.visibility IN (:...vis)', { vis: ['public', 'private'] });
+    } else {
+      qb.where('event.visibility = :vis', { vis: 'public' });
     }
-    const events = await this.eventsRepository.find({
-      where,
-      relations: ['participants', 'organizer'],
-      order: { dateTime: 'asc' },
-    });
-    if (events.length === 0) return [];
+
+    if (tagIds?.length) {
+      qb.andWhere('tags.id IN (:...tagIds)', { tagIds });
+    }
+
+    const events = await qb.getMany();
+
     return mapToListItem(events);
   }
 
   async findOne(id: string): Promise<EventDetailsResponseDto> {
     const event = await this.eventsRepository.findOne({
       where: { id: id },
-      relations: ['participants', 'organizer'],
+      relations: ['participants', 'organizer', 'tags'],
     });
     if (!event) {
       throw new NotFoundException(`Event ${id} not found`);
@@ -78,6 +85,8 @@ export class EventsService {
       ...createEventDto,
       organizer: user,
     });
+    newEvent.tags = await this.resolveTags(createEventDto.tagIds);
+
     await this.eventsRepository.save(newEvent);
     return this.findOne(newEvent.id);
   }
@@ -89,6 +98,7 @@ export class EventsService {
   ): Promise<EventDetailsResponseDto> {
     const event = await this.findEventOrFail(id, 'organizer');
     this.checkOwner(event.organizer.id, user.id);
+    event.tags = await this.resolveTags(updateEventDto.tagIds);
 
     Object.assign(event, updateEventDto);
     await this.eventsRepository.save(event);
@@ -166,5 +176,10 @@ export class EventsService {
         'Only organizer can update or remove this event',
       );
     }
+  }
+
+  private resolveTags(tagIds?: string[]): Promise<Tag[]> | [] {
+    if (!tagIds?.length) return [];
+    return this.tagsService.findByIds(tagIds);
   }
 }

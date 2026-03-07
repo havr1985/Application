@@ -4,6 +4,7 @@ import {
   ParticipantsResponseDto,
 } from './events-list-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { TagResponseDto } from '../../tags/dto/tag-response.dto';
 
 export class OrganizerDetailsResponseDto extends OrganizerResponseDto {
   @ApiProperty({ example: 'ivan@mail.com' })
@@ -45,4 +46,7 @@ export class EventDetailsResponseDto {
 
   @ApiProperty({ type: [ParticipantsDetailResponseDto] })
   participants: ParticipantsDetailResponseDto[];
+
+  @ApiProperty({ type: [TagResponseDto] })
+  tags: TagResponseDto[];
 }

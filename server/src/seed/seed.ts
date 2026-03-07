@@ -5,6 +5,7 @@ import {
   VisibilityEvent,
   Event,
 } from '../modules/events/entities/event.entity';
+import { Tag } from '../modules/tags/entities/tag.entity';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -13,7 +14,7 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: ['dist/**/*.entity{.ts,.js}'],
+  entities: [User, Event, Tag],
 });
 
 async function seed() {
@@ -58,6 +59,26 @@ async function seed() {
     console.log(`✅ Users: ${users.length} created`);
 
     // ==========================================
+    // TAGS
+    // ==========================================
+    const tagRepo = queryRunner.manager.getRepository(Tag);
+
+    const tags = await tagRepo.save([
+      { name: 'Tech' },
+      { name: 'Art' },
+      { name: 'Business' },
+      { name: 'Music' },
+      { name: 'Design' },
+      { name: 'Science' },
+      { name: 'Networking' },
+      { name: 'Health' },
+      { name: 'Education' },
+      { name: 'Sports' },
+    ]);
+
+    console.log(`✅ Tags: ${tags.length} created`);
+
+    // ==========================================
     // EVENTS
     // ==========================================
     const now = new Date();
@@ -73,6 +94,7 @@ async function seed() {
         visibility: VisibilityEvent.PUBLIC,
         organizer: users[0],
         participants: [users[1]],
+        tags: [tags[0], tags[5], tags[6]],
       },
       {
         title: 'Community Networking Meetup',
@@ -84,6 +106,7 @@ async function seed() {
         visibility: VisibilityEvent.PUBLIC,
         organizer: users[1],
         participants: [users[0]],
+        tags: [tags[6], tags[2]],
       },
       {
         title: 'Design Workshop',
@@ -95,6 +118,7 @@ async function seed() {
         visibility: VisibilityEvent.PUBLIC,
         organizer: users[0],
         participants: [],
+        tags: [tags[4], tags[1]],
       },
     ]);
 

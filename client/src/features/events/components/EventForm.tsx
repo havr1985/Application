@@ -4,6 +4,7 @@ import { Controller, type Resolver, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import { TagMultiSelect } from '../../tags/components/TagMultiSelect.tsx';
 
 interface EventFormProps {
   initialData?: EventFormData;
@@ -36,6 +37,7 @@ export const EventForm: FC<EventFormProps> = ({
       capacity: initialData?.capacity ?? null,
       visibility: initialData?.visibility ?? 'public',
       dateTime: initialData?.dateTime ?? undefined,
+      tagIds: initialData?.tagIds ?? [],
     },
   });
 
@@ -188,6 +190,24 @@ export const EventForm: FC<EventFormProps> = ({
         </div>
         {errors.visibility && (
           <p className="text-xs text-danger-500">{errors.visibility.message}</p>
+        )}
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <label className="text-sm font-medium text-text-primary mb-2">
+          Tags (optional, max 5)
+        </label>
+        <Controller
+          control={control}
+          name="tagIds"
+          render={({ field }) => (
+            <TagMultiSelect
+              selected={field.value || []}
+              onChange={field.onChange}
+            />
+          )}
+        />
+        {errors.tagIds && (
+          <p className="text-xs text-danger-500">{errors.tagIds.message}</p>
         )}
       </div>
 
