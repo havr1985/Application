@@ -5,21 +5,21 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Event } from './entities/event.entity';
+import { Event } from '../entities/event.entity';
 import { Repository } from 'typeorm';
-import { EventsItemResponseDto } from './dto/events-list-response.dto';
-import { EventDetailsResponseDto } from './dto/event-detail-respons.dto';
-import { CreateEventDto } from './dto/create-event.dto';
-import { User } from '../users/entities/user.entity';
-import { UpdateEventDto } from './dto/update-event.dto';
-import { UserEventsDto } from './dto/user-events.dto';
+import { EventsItemResponseDto } from '../dto/events-list-response.dto';
+import { EventDetailsResponseDto } from '../dto/event-detail-respons.dto';
+import { CreateEventDto } from '../dto/create-event.dto';
+import { User } from '../../users/entities/user.entity';
+import { UpdateEventDto } from '../dto/update-event.dto';
+import { UserEventsDto } from '../dto/user-events.dto';
 import {
   mapToEventDetail,
   mapToListItem,
   mapToUserEvents,
-} from './mappers/event-response.mappers';
-import { TagsService } from '../tags/tags.service';
-import { Tag } from '../tags/entities/tag.entity';
+} from '../mappers/event-response.mappers';
+import { TagsService } from '../../tags/tags.service';
+import { Tag } from '../../tags/entities/tag.entity';
 
 @Injectable()
 export class EventsService {

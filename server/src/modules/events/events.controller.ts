@@ -10,7 +10,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { EventsService } from './events.service';
+import { EventsService } from './services/events.service';
 import { Public } from '../auth/decorators/public.decorator';
 import { EventsItemResponseDto } from './dto/events-list-response.dto';
 import { EventDetailsResponseDto } from './dto/event-detail-respons.dto';

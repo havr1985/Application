@@ -10,6 +10,7 @@ const CreateEventPage = lazy(() => import('../../pages/CreateEventPage.tsx'));
 const EditEventPage = lazy(() => import('../../pages/EditEventPage.tsx'));
 const EventDetailPage = lazy(() => import('../../pages/EventDetailPage.tsx'));
 const MyEventsPage = lazy(() => import('../../pages/MyEventsPage.tsx'));
+const AiAssistantPage = lazy(() => import('../../pages/AiAssistantPage.tsx'));
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +75,16 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<p>Loading...</p>}>
               <MyEventsPage />
+            </Suspense>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/ai',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<p>Loading...</p>}>
+              <AiAssistantPage />
             </Suspense>
           </ProtectedRoute>
         ),

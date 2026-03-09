@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import { TagsModule } from './modules/tags/tags.module';
+import { AiModule } from './modules/ai/ai.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TagsModule } from './modules/tags/tags.module';
     EventsModule,
     AuthModule,
     TagsModule,
+    AiModule,
   ],
   controllers: [],
   providers: [

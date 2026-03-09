@@ -51,6 +51,9 @@ export const Navbar: FC = () => {
                 <Link to="/events/create" className="btn-accent text-sm">
                   + Create Event
                 </Link>
+                <Link to="/ai" className="btn-primary text-sm">
+                  Ai Assistant
+                </Link>
               </>
             )}
           </nav>
