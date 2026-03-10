@@ -38,7 +38,8 @@ export class EventsService {
       .leftJoinAndSelect('event.participants', 'participants')
       .leftJoinAndSelect('event.organizer', 'organizer')
       .leftJoinAndSelect('event.tags', 'tags')
-      .orderBy('event.dateTime', 'ASC');
+      .orderBy('event.dateTime', 'ASC')
+      .addOrderBy('tags.name', 'ASC');
 
     if (userId) {
       qb.where('event.visibility IN (:...vis)', { vis: ['public', 'private'] });
@@ -156,6 +157,7 @@ export class EventsService {
       .where('events.organizer_id = :userId', { userId: user.id })
       .orWhere('participants.id = :userId', { userId: user.id })
       .orderBy('events.dateTime', 'ASC')
+      .addOrderBy('tags.name', 'ASC')
       .getMany();
     return mapToUserEvents(events);
   }

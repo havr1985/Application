@@ -25,7 +25,8 @@ export class EventsAIService {
       .leftJoinAndSelect('event.tags', 'tags')
       .leftJoinAndSelect('event.organizer', 'organizer')
       .leftJoinAndSelect('event.participants', 'participants')
-      .orderBy('event.dateTime', 'ASC');
+      .orderBy('event.dateTime', 'ASC')
+      .addOrderBy('tags.name', 'ASC');
 
     if (params.userId) {
       qb.andWhere(
