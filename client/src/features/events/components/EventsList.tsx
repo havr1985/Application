@@ -18,6 +18,7 @@ export const EventsList: FC = () => {
         onChange={setSearch}
         placeholder="Search events..."
       />
+
       {filteredEvents.length === 0 ? (
         <p className="text-center text-text-secondary py-12">
           No events available yet.

@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { EventsService } from '../events/events.service';
+import { EventsService } from '../events/services/events.service';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from './entities/user.entity';
 import { UserEventsDto } from '../events/dto/user-events.dto';

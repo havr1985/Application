@@ -1,4 +1,4 @@
-import { EventForm } from '../features/events/components/EventForm.tsx';
+import { EventForm } from '../features/events/components/event-form/EventForm.tsx';
 import type { EventFormData } from '../features/events/schemas/event.schemas.ts';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -22,7 +22,6 @@ const EventCreatePage = () => {
   };
   return (
     <div className="mx-auto max-w-2xl">
-      {/* Back button */}
       <button
         onClick={() => navigate(-1)}
         className="mb-6 flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors"

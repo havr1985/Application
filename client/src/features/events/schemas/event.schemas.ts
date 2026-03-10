@@ -29,6 +29,12 @@ export const eventSchema = (minCapacity: number = 1) =>
       .string()
       .oneOf(['public', 'private'])
       .required('Visibility is required'),
+    tagIds: yup
+      .array()
+      .of(yup.string().required())
+      .max(5, 'Maximum 5 tags per event')
+      .optional()
+      .default([]),
   });
 
 export type EventFormData = yup.InferType<ReturnType<typeof eventSchema>>;

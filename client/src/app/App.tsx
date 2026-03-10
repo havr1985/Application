@@ -3,6 +3,7 @@ import { router } from './routes/router.tsx';
 import { useEffect, useRef } from 'react';
 import { useAuthStore } from '../features/auth/store/auth.store.ts';
 import { Toaster } from 'react-hot-toast';
+import { useTagsStore } from '../features/tags/store/tags.store.ts';
 
 function App() {
   const initialized = useRef(false);
@@ -12,6 +13,7 @@ function App() {
       initialized.current = true;
       useAuthStore.getState().checkAuth();
     }
+    useTagsStore.getState().fetchTags();
   }, []);
   return (
     <>

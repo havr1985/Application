@@ -50,6 +50,7 @@ services:
       JWT_EXPIRATION: ${JWT_EXPIRATION:-15m}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-super-secret-refresh-key}
       JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION:-7d}
+      GROQ_API_KEY: ${GROQ_API_KEY:-your-groq-api-key}
       SERVER_PORT: 4000
       NODE_ENV: production
     depends_on:

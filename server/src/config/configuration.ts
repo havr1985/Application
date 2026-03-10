@@ -23,8 +23,13 @@ export const jwtConfig = registerAs('jwt', () => ({
     '15d') as StringValue,
 }));
 
-export const config = [appConfig, dbConfig, jwtConfig];
+export const aiConfig = registerAs('ai', () => ({
+  apiKey: process.env.GROQ_API_KEY,
+}));
+
+export const config = [appConfig, dbConfig, jwtConfig, aiConfig];
 
 export type AppConfig = ReturnType<typeof appConfig>;
 export type DatabaseConfig = ReturnType<typeof dbConfig>;
 export type JwtConfig = ReturnType<typeof jwtConfig>;
+export type AiConfig = ReturnType<typeof aiConfig>;

@@ -4,7 +4,7 @@ import {
   useEventsActions,
 } from '../features/events/store/events.selectors.ts';
 import type { EventFormData } from '../features/events/schemas/event.schemas.ts';
-import { EventForm } from '../features/events/components/EventForm.tsx';
+import { EventForm } from '../features/events/components/event-form/EventForm.tsx';
 import type { FC } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
@@ -26,7 +26,6 @@ const EditEventPage: FC = () => {
   };
   return (
     <div className="mx-auto max-w-2xl">
-      {/* Back button */}
       <button
         onClick={() => navigate(-1)}
         className="mb-6 flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors"
@@ -45,7 +44,10 @@ const EditEventPage: FC = () => {
         <EventForm
           onSubmit={handleEdit}
           submitLabel="Edit Event"
-          initialData={currentEvent}
+          initialData={{
+            ...currentEvent,
+            tagIds: currentEvent.tags?.map((t) => t.id) ?? [],
+          }}
           minCapacity={currentEvent.participants.length}
         />
       </div>

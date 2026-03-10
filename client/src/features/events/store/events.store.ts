@@ -17,7 +17,7 @@ interface EventsState {
   myEvents: UserEvent[];
   isLoading: boolean;
 
-  fetchEvents: () => void;
+  fetchEvents: (tagIds?: string[]) => void;
   fetchEventById: (id: string) => void;
   fetchMyEvents: () => void;
   joinEvent: (id: string) => void;
@@ -37,10 +37,11 @@ export const useEventsStore = create<EventsState>()(
       myEvents: [],
       isLoading: false,
 
-      fetchEvents: async () => {
+      fetchEvents: async (tagIds?: string[]) => {
         try {
           set({ isLoading: true });
-          const data = await eventsApi.getAllEvents();
+          const params = tagIds?.length ? { tagIds } : {};
+          const data = await eventsApi.getAllEvents(params);
           set({ events: data });
         } catch (e) {
           toast.error(getErrorMessage(e) || 'Fetch events failed');

@@ -33,13 +33,28 @@ entity "events" as events {
   * updated_at : timestamptz
 }
 
+entity "tags" as tags {
+  * **id** : uuid <<PK>>
+  --
+  * name : varchar(50) <<UNIQUE>>
+  * created_at : timestamptz
+  * updated_at : timestamptz
+}
+
 entity "event_participants" as participants {
   * **event_id** : uuid <<PK, FK>>
   * **user_id** : uuid <<PK, FK>>
 }
 
+entity "event_tags" as event_tags {
+  * **event_id** : uuid <<PK, FK>>
+  * **tag_id** : uuid <<PK, FK>>
+}
+
 users ||--o{ events : "organizes"
 users }o--o{ participants : "joins"
 events }o--o{ participants : "has"
+events }o--o{ event_tags : "has"
+tags }o--o{ event_tags : "tagged"
 
 @enduml

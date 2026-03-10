@@ -8,8 +8,9 @@ import { useUser } from '../../auth/store/auth.selectors.ts';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock1, MapPin, Pencil, Trash2, Users } from 'lucide-react';
 import { formatDate, formatTime } from '../../../shared/utils/formatDate.ts';
-import { DeleteEventModal } from './DeleteEventModal.tsx';
-import { EventActionButton } from './EventActionButton.tsx';
+import { DeleteEventModal } from './delete-event-modal/DeleteEventModal.tsx';
+import { EventActionButton } from './event-action-button/EventActionButton.tsx';
+import { TagChips } from '../../tags/components/tag-chips/TagChips.tsx';
 
 export const EventDetailsCard: FC = () => {
   const event = useCurrentEvent();
@@ -49,16 +50,18 @@ export const EventDetailsCard: FC = () => {
       <div className="card p-8">
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
-          <div>
+          <div className="w-full">
             <h1 className="text-2xl font-bold text-text-primary mb-2">
               {event.title}
             </h1>
-            <span className="inline-block rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700">
-              {event.visibility}
-            </span>
+            <div>
+              <span className="inline-block mb-2 rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700">
+                {event.visibility}
+              </span>
+              <TagChips tags={event.tags} />
+            </div>
           </div>
 
-          {/* Organizer actions */}
           {isOrganizer && (
             <div className="flex items-center gap-2">
               <button
@@ -79,12 +82,10 @@ export const EventDetailsCard: FC = () => {
           )}
         </div>
 
-        {/* Description */}
         <p className="mt-6 text-text-secondary leading-relaxed">
           {event.description}
         </p>
 
-        {/* Event info */}
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="flex items-center gap-3 rounded-lg bg-surface-secondary p-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-100">
@@ -135,7 +136,6 @@ export const EventDetailsCard: FC = () => {
           </div>
         </div>
 
-        {/* Organizer */}
         <div className="mt-8">
           <h3 className="mb-3 text-sm font-semibold text-text-primary">
             Organizer
@@ -159,7 +159,6 @@ export const EventDetailsCard: FC = () => {
           </div>
         </div>
 
-        {/* Participants */}
         <div className="mt-8">
           <h3 className="mb-3 text-sm font-semibold text-text-primary">
             Participants ({event.participants.length})
@@ -189,7 +188,6 @@ export const EventDetailsCard: FC = () => {
           )}
         </div>
 
-        {/* Action button */}
         <div className="mt-8 border-t border-border pt-6">
           <EventActionButton
             isJoined={isJoined}
@@ -200,7 +198,6 @@ export const EventDetailsCard: FC = () => {
         </div>
       </div>
 
-      {/* Delete confirmation modal */}
       {showDeleteModal && (
         <DeleteEventModal
           onClose={() => setShowDeleteModal(false)}

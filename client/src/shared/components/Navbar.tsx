@@ -51,6 +51,9 @@ export const Navbar: FC = () => {
                 <Link to="/events/create" className="btn-accent text-sm">
                   + Create Event
                 </Link>
+                <Link to="/ai" className="btn-primary text-sm">
+                  Ai Assistant
+                </Link>
               </>
             )}
           </nav>
@@ -146,6 +149,9 @@ export const Navbar: FC = () => {
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     + Create Event
+                  </Link>
+                  <Link to="/ai" className="btn-primary text-center text-sm">
+                    Ai Assistant
                   </Link>
                   <div className="mt-1 flex items-center justify-between border-t border-border pt-3">
                     <span className="text-sm text-text-secondary">
