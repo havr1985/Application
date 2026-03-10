@@ -43,6 +43,7 @@ export function mapToUserEvents(events: Event[]): UserEventsDto[] {
     id: event.id,
     title: event.title,
     dateTime: event.dateTime,
+    tags: event.tags.map((tag) => ({ id: tag.id, name: tag.name })),
   }));
 }
 

@@ -4,8 +4,8 @@ import { Calendar, Clock1, MapPin, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../../auth/store/auth.selectors.ts';
 import { useEventsActions } from '../store/events.selectors.ts';
-import { EventActionButton } from './EventActionButton.tsx';
-import { TagChips } from '../../tags/components/TagChips.tsx';
+import { EventActionButton } from './event-action-button/EventActionButton.tsx';
+import { TagChips } from '../../tags/components/tag-chips/TagChips.tsx';
 
 export const EventsListItem = ({ event }: { event: EventsItem }) => {
   const user = useUser();

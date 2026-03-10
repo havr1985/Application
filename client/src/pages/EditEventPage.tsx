@@ -4,7 +4,7 @@ import {
   useEventsActions,
 } from '../features/events/store/events.selectors.ts';
 import type { EventFormData } from '../features/events/schemas/event.schemas.ts';
-import { EventForm } from '../features/events/components/EventForm.tsx';
+import { EventForm } from '../features/events/components/event-form/EventForm.tsx';
 import type { FC } from 'react';
 import { ArrowLeft } from 'lucide-react';
 

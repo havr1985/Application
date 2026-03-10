@@ -1,10 +1,13 @@
 import type { FC } from 'react';
-import { type EventFormData, eventSchema } from '../schemas/event.schemas.ts';
+import {
+  type EventFormData,
+  eventSchema,
+} from '../../schemas/event.schemas.ts';
 import { Controller, type Resolver, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
-import { TagMultiSelect } from '../../tags/components/TagMultiSelect.tsx';
+import { TagMultiSelect } from '../../../tags/components/TagMultiSelect.tsx';
 
 interface EventFormProps {
   initialData?: EventFormData;

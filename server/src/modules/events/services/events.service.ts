@@ -152,6 +152,7 @@ export class EventsService {
       .createQueryBuilder('events')
       .leftJoinAndSelect('events.participants', 'participants')
       .leftJoinAndSelect('events.organizer', 'organizer')
+      .leftJoinAndSelect('events.tags', 'tags')
       .where('events.organizer_id = :userId', { userId: user.id })
       .orWhere('participants.id = :userId', { userId: user.id })
       .orderBy('events.dateTime', 'ASC')

@@ -150,6 +150,9 @@ export const Navbar: FC = () => {
                   >
                     + Create Event
                   </Link>
+                  <Link to="/ai" className="btn-primary text-center text-sm">
+                    Ai Assistant
+                  </Link>
                   <div className="mt-1 flex items-center justify-between border-t border-border pt-3">
                     <span className="text-sm text-text-secondary">
                       {user?.name}

@@ -8,9 +8,9 @@ import { useUser } from '../../auth/store/auth.selectors.ts';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock1, MapPin, Pencil, Trash2, Users } from 'lucide-react';
 import { formatDate, formatTime } from '../../../shared/utils/formatDate.ts';
-import { DeleteEventModal } from './DeleteEventModal.tsx';
-import { EventActionButton } from './EventActionButton.tsx';
-import { TagChips } from '../../tags/components/TagChips.tsx';
+import { DeleteEventModal } from './delete-event-modal/DeleteEventModal.tsx';
+import { EventActionButton } from './event-action-button/EventActionButton.tsx';
+import { TagChips } from '../../tags/components/tag-chips/TagChips.tsx';
 
 export const EventDetailsCard: FC = () => {
   const event = useCurrentEvent();

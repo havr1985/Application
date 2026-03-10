@@ -5,6 +5,10 @@ import { enUS } from 'date-fns/locale/en-US';
 import { useNavigate } from 'react-router-dom';
 import { useMyEvents } from '../store/events.selectors';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import {
+  DEFAULT_TAG_HEX,
+  TAG_CONFIG,
+} from '../../tags/constants/tags.constants.ts';
 
 const locales = { 'en-US': enUS };
 
@@ -21,6 +25,7 @@ interface CalendarEvent {
   title: string;
   start: Date;
   end: Date;
+  color: string;
   allDay: boolean;
 }
 
@@ -38,6 +43,7 @@ export const MyEventsCalendar: FC = () => {
         title: event.title,
         start: new Date(event.dateTime),
         end: new Date(new Date(event.dateTime).getTime() + 60 * 60 * 1000),
+        color: TAG_CONFIG[event.tags?.[0]?.name]?.hex || DEFAULT_TAG_HEX,
         allDay: false,
       })),
     [myEvents],
@@ -70,9 +76,9 @@ export const MyEventsCalendar: FC = () => {
           onSelectEvent={handleSelectEvent}
           style={{ height: 600 }}
           popup
-          eventPropGetter={() => ({
+          eventPropGetter={(event) => ({
             style: {
-              backgroundColor: 'var(--color-accent-500)',
+              backgroundColor: event.color,
               borderRadius: 'var(--radius-sm)',
               border: 'none',
               fontSize: '0.8rem',
