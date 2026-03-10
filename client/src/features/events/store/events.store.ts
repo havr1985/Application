@@ -23,7 +23,7 @@ interface EventsState {
   joinEvent: (id: string) => void;
   leaveEvent: (id: string) => void;
   deleteEvent: (id: string) => void;
-  createEvent: (data: CreateEventType) => void;
+  createEvent: (data: CreateEventType) => Promise<EventDetail>;
   updateEvent: (id: string, data: UpdateEventType) => void;
 }
 
@@ -120,6 +120,7 @@ export const useEventsStore = create<EventsState>()(
           const res = await eventsApi.createEvent(data);
           set({ currentEvent: res });
           toast.success('Created event!');
+          return res;
         } catch (e) {
           toast.error(getErrorMessage(e) || 'Failed to create event');
           throw e;
